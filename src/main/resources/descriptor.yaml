@@ -1,0 +1,47 @@
+metadata:
+  description: "Service4"
+  type: EdgeService
+  icon: "fa-server"
+roles:
+  - name: demo
+    description: another description for demo role
+    permissions:
+      - demo-service.CanAccess
+      - demo-service.CanViewContract
+      - demo-service.CanCreateContract
+      - demo-service.CanEditContract
+      - demo-service.CanApproveContract
+  - name: ml-job
+    description: to be able to call ml-job-handler
+    permissions:
+      - ml-job-handler.CanAccess
+managed-services:
+  database:
+    create: true
+    maxConnectionPoolSize: 5
+    connectionTimeout: 60000
+    validationTimeout: 10000
+    depends-on:
+      - demo-service
+      - service1
+  messaging:
+    queues: []
+    topics: []
+    jobs: []
+resources:
+  requests:
+    memory: 2Gi
+    cpu: 1000m
+  limits:
+    memory: 2Gi
+    cpu: 4000m
+  # requests:
+  #   memory: 256Mi
+  #   cpu: 100m
+  # limits:
+  #   memory: 512Mi
+  #   cpu: 200m
+env:
+  - name: spring.slf4j.enabled
+    value: "true"
+java-opts-append: "-Xms256m -Xmx512m"
